@@ -12,10 +12,10 @@
 # in uppercase so they stand out.
 
 reviews = [ "This product is really good. I'm impressed with its quality.", 
-                  "The performance of this product is excellent. Highly recommended!", 
-                  "I had a bad experience with this product. It didn't meet my expectations.", 
-                  "Poor quality product. Wouldn't recommend it to anyone.", 
-                  "The product was average. Nothing extraordinary about it." ]
+            "The performance of this product is excellent. Highly recommended!", 
+            "I had a bad experience with this product. It didn't meet my expectations.", 
+            "Poor quality product. Wouldn't recommend it to anyone.", 
+            "The product was average. Nothing extraordinary about it." ]
 keywords = ["good", "excellent", "bad", "poor", "average"]
 
 
@@ -34,22 +34,29 @@ for review in reviews:
 positive_words = ["good", "excellent", "great", "awesome", "fantastic", "superb", "amazing"] 
 negative_words = ["bad", "poor", "terrible", "horrible", "awful", "disappointing", "subpar"]
 
-positive = 0
-negative = 0
+def count_positive_negative(reviews, positive_words, negative_words):
 
-for review in reviews:
-    lower_review = review.lower()
-    for pos_word in positive_words:
-        if pos_word in lower_review:
-            positive += 1
-print(positive)
+    positive_counts = []
+    negative_counts = []
 
-for review in reviews:
-    lower_review = review.lower()
-    for neg_word in negative_words:
-        if neg_word in lower_review:
-            negative += 1
-print(negative)
+    for review in reviews:
+        positive = 0
+        negative = 0
+        lower_review = review.lower()
+        for pos_word in positive_words:
+            positive += lower_review.count(pos_word)    # Count all occurrences of positive words
+        for neg_word in negative_words:
+            negative += lower_review.count(neg_word)    # Count all occurrences of negative words
+        positive_counts.append(positive)
+        negative_counts.append(negative)
+        
+    return positive_counts, negative_counts
+
+positive_counts, negative_counts = count_positive_negative(reviews, positive_words, negative_words)
+
+print("Counts of positive and negative words for each review:")
+for i in range(len(reviews)):
+    print(f"Review {i+1}: Positive words count = {positive_counts[i]}, Negative words count = {negative_counts[i]}")
 
 # Task 3: Review Summary
 
@@ -64,7 +71,6 @@ for review in reviews:
     else:
         short_review = review[:30]
         last_space_index = short_review.rfind(' ')
-        print(last_space_index)
         if last_space_index != -1:                           # If the space was found:
             short_review = short_review[:last_space_index]
             summaries.append(short_review + "...")
